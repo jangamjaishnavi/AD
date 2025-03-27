@@ -14,7 +14,7 @@ import numpy as np
 app = Flask(__name__)
 
 # Load trained model
-model = joblib.load('iris_model.pkl')
+model = joblib.load('scaler.pkl')
 
 @app.route('/')
 def home():
