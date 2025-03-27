@@ -16,7 +16,7 @@ app = Flask(__name__)
 # Load trained model
 model = joblib.load('scaler.pkl')
 
-@app.route('/')
+@app.route("/", methods=['GET', 'HEAD'])
 def home():
     return render_template('home.html')
 
