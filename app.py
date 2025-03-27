@@ -7,36 +7,32 @@
 # app.py
 
 from flask import Flask, render_template, request
-import joblib
+import pickle
 import numpy as np
 
-# Initialize Flask app
 app = Flask(__name__)
 
-# Load trained model
-model = joblib.load('scaler.pkl')
+# Load the trained churn model
+model = pickle.load(open('churn_model.pkl', 'rb'))
 
-@app.route("/", methods=['GET', 'HEAD'])
+@app.route("/", methods=["GET", "POST", "HEAD"])  # Added HEAD method
 def home():
-    return render_template('home.html')
+    return render_template("home.html")
 
-@app.route('/predict', methods=['POST'])
+@app.route("/predict", methods=["POST"])
 def predict():
-    # Get data from form
     try:
-        features = [float(request.form[f'feature{i}']) for i in range(1, 5)]
-    except ValueError:
-        return render_template('result.html', prediction="Invalid input. Please enter numeric values.")
+        # Get input values from form
+        features = [float(request.form.get(f'feature{i+1}')) for i in range(5)]
+        features = np.array([features])
 
-    # Make prediction
-    prediction = model.predict([features])[0]
+        # Predict churn
+        prediction = model.predict(features)[0]
+        result = "Will Churn" if prediction == 1 else "Will Not Churn"
 
-    # Map prediction to class name
-    class_names = ['Setosa', 'Versicolor', 'Virginica']
-    result = class_names[prediction]
+        return render_template("result.html", prediction=result)
+    except Exception as e:
+        return f"Error: {e}"
 
-    return render_template('result.html', prediction=result)
-
-if __name__ == '__main__':
+if __name__ == "__main__":
     app.run(debug=True)
-
