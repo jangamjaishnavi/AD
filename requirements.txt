@@ -2,3 +2,4 @@ Flask
 scikit-Learn
 joblib
 gunicorn
+xgboost
