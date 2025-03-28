@@ -3,7 +3,6 @@
 
 # In[ ]:
 
-
 # app.py
 
 from flask import Flask, render_template, request
@@ -14,7 +13,7 @@ app = Flask(__name__)
 
 # ✅ Load the trained churn model
 try:
-    with open("churn_model.pkl", "rb") as file:
+    with open("xgboost_model.pkl", "rb") as file:
         model = pickle.load(file)  # Ensure the file exists in the project directory
 except Exception as e:
     print(f"Error loading model: {e}")
