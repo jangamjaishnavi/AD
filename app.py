@@ -15,11 +15,6 @@ app = Flask(__name__)
 # Load the trained churn model
 from flask import send_file
 
-@app.route("/download")
-def download_file():
-    return send_file("churn_model.pkl", as_attachment=True)
-
-model = pickle.load(open('churn_model.pkl', 'rb'))
 
 @app.route("/", methods=["GET", "POST", "HEAD"])  # Added HEAD method
 def home():
