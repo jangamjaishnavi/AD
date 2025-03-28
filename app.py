@@ -19,7 +19,7 @@ except Exception as e:
     print(f"Error loading model: {e}")
     model = None  # Handle cases where model is missing
 
-@app.route("/", methods=["GET", "HEAD"])  
+@app.route("/", methods=["GET","HEAD"])  
 def home():
     return render_template("home.html")
 
