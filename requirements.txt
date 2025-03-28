@@ -1,5 +1,6 @@
-Flask
-scikit-Learn
-joblib
+flask
 gunicorn
+numpy
+pandas
+scikit-learn
 xgboost
