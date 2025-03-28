@@ -12,22 +12,29 @@ import numpy as np
 
 app = Flask(__name__)
 
-# Load the trained churn model
-from flask import send_file
+# ✅ Load the trained churn model
+try:
+    with open("churn_model.pkl", "rb") as file:
+        model = pickle.load(file)  # Ensure the file exists in the project directory
+except Exception as e:
+    print(f"Error loading model: {e}")
+    model = None  # Handle cases where model is missing
 
-
-@app.route("/", methods=["GET", "POST", "HEAD"])  # Added HEAD method
+@app.route("/", methods=["GET", "POST", "HEAD"])  
 def home():
     return render_template("home.html")
 
 @app.route("/predict", methods=["POST"])
 def predict():
     try:
-        # Get input values from form
-        features = [float(request.form.get(f'feature{i+1}')) for i in range(5)]
+        if model is None:
+            return "Error: Model not loaded."
+
+        # ✅ Get input values from form (assuming 5 inputs)
+        features = [float(request.form.get(f'feature{i+1}', 0)) for i in range(5)]
         features = np.array([features])
 
-        # Predict churn
+        # ✅ Predict churn
         prediction = model.predict(features)[0]
         result = "Will Churn" if prediction == 1 else "Will Not Churn"
 
