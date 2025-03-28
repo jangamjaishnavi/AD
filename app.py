@@ -6,7 +6,7 @@
 
 # app.py
 
-from flask import Flask, render_template, request
+from flask import Flask, render_templates, request
 import pickle
 import numpy as np
 
